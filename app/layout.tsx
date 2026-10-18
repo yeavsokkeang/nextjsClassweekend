@@ -1,15 +1,22 @@
-import { Geist, Geist_Mono } from "next/font/google"
+"use client"
+
+import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
+
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+const queryClient = new QueryClient()
 
 export default function RootLayout({
   children,
@@ -20,10 +27,21 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        inter.variable
+      )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   )
