@@ -9,12 +9,14 @@ export interface IProductRequest {
   // image_url: string
 }
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+console.log("Backend", backendUrl)
 export const getAllProduct = async () => {
-  const res = axios.get("http://localhost:3001/api/products")
+  const res = axios.get(`${backendUrl}/api/products`)
   return res
 }
 
 export const createProduct = async (request: IProductRequest) => {
-  const res = axios.post("http://localhost:3001/api/products", request)
+  const res = axios.post(`${backendUrl}/api/products`, request)
   return res
 }
